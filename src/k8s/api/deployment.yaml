@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: harrisonlima/pedelogo-catalogo:v1
+        image: harrisonlima/pedelogo-catalogo:{{TAG}}
         ports:
         - containerPort: 80
         resources:
