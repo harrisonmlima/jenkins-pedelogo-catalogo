@@ -9,7 +9,7 @@ pipeline
             {
                 script
                 {
-                    dockerapp = docker.build("harrisonlima/pedelogo-catalogo:${env.BUILD_ID}", '-f ./src/PedeLogo.Catalogo.Api/Dockerfile ./src')
+                    dockerapp = docker.build("harrisonlima/pedelogo-catalogo:${env.BUILD_ID}", '-f ./src/PedeLogo.Catalogo.Api/Dockerfile ./src/PedeLogo.Catalogo.Api')
                 }
             }
         }
