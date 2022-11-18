@@ -10,10 +10,10 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 COPY ["PedeLogo.Catalogo.Api/PedeLogo.Catalogo.Api.csproj", "PedeLogo.Catalogo.Api/"]
 RUN dotnet restore "PedeLogo.Catalogo.Api/PedeLogo.Catalogo.Api.csproj"
 COPY . .
-RUN dotnet build "PedeLogo.Catalogo.Api.csproj" -c Release -o /app/build
+RUN dotnet build "PedeLogo.Catalogo.Api/PedeLogo.Catalogo.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "PedeLogo.Catalogo.Api.csproj" -c Release -o /app/publish
+RUN dotnet publish "PedeLogo.Catalogo.Api/PedeLogo.Catalogo.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 
