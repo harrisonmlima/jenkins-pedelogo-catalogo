@@ -20,7 +20,9 @@ spec:
         image: mongo:4.2.8
         ports:
         - containerPort: 27017
-        
+        volumeMounts:
+          - mountPath: /data/db
+            name: mongodb-data
         envFrom:
           - secretRef:
               name: mongodb-secret
@@ -29,10 +31,15 @@ spec:
         resources: {}
         ports:
           - containerPort: 9216
-        
+        volumeMounts:
+          - mountPath: /data/db
+            name: mongodb-data
         env:
           - name: MONGODB_URI
             value: mongodb://mongouser:mongopwd@localhost:27017
-      
+      volumes:
+        - name: mongodb-data
+          persistentVolumeClaim:
+            claimName: digitalocean-pvc     
 
           
