@@ -9,6 +9,10 @@ spec:
       app: postgres
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "80"
       labels:
         app: postgres
     spec:
@@ -26,4 +30,4 @@ spec:
       volumes:
         - name: postgres-data
           persistentVolumeClaim:
-            claimName: postgres-pvc
+            claimName: do-block-storage-retain
