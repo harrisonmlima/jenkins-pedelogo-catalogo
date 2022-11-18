@@ -1,33 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: mongodb-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: mongodb
   template:
     metadata:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: /metrics
-        prometheus.io/port: "80"
+        prometheus.io/port: "9216"
       labels:
-        app: postgres
+        app: mongodb
     spec:
       containers:
-      - name: postgres
-        image: postgres:14.5
+      - name: mongodb
+        image: mongo:4.2.8
         ports:
-        - containerPort: 5432
+        - containerPort: 27017
         volumeMounts:
-          - mountPath: /var/lib/postgresql/data
-            name: postgres-data
+          - mountPath: /data/db
+            name: mongodb-data
         envFrom:
           - secretRef:
-              name: postgres-secret
+              name: mongodb-secret
+      - name: mongodbexporter
+        image: harrisonlima/mongo_exporter
+        resources: {}
+        ports:
+          - containerPort: 9216
+        volumeMounts:
+          - mountPath: /data/db
+            name: mongodb-data
+        env:
+          - name: MONGODB_URI
+            value: mongodb://mongouser:mongopwd@localhost:27017
       volumes:
-        - name: postgres-data
+        - name: mongodb-data
           persistentVolumeClaim:
             claimName: do-block-storage-retain
+          

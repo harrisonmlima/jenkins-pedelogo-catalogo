@@ -3,4 +3,6 @@ kind: ConfigMap
 metadata:
   name: api-configmap
 data:
-  DB_HOST: postgres
+  Mongo__Host: mongodb
+  Mongo__Port: "27017"
+  Mongo_Database: admin

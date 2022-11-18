@@ -9,7 +9,7 @@ pipeline
             {
                 script
                 {
-                    dockerapp = docker.build("harrisonlima/kube-news:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
+                    dockerapp = docker.build("harrisonlima/pedelogo-catalogo:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
                 }
             }
         }

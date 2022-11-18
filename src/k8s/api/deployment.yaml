@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: web
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: web
@@ -17,7 +18,9 @@ spec:
     spec:
       containers:
       - name: web
-        image: harrisonlima/kube-news:{{TAG}}
+        image: harrisonlima/pedelogo-catalogo:v1
+        ports:
+        - containerPort: 80
         resources:
           limits:
             memory: "256Mi"
@@ -28,49 +31,34 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 8080
+            port: 80
           periodSeconds: 10
           initialDelaySeconds: 3
           failureThreshold: 3
           successThreshold: 1
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 8080
-          periodSeconds: 10
-          initialDelaySeconds: 3
-          failureThreshold: 5
-          successThreshold: 1
-        ports:
-        - containerPort: 8080
+        
         envFrom:
           - configMapRef:
               name: api-configmap
         env:
-          - name: DB_DATABASE
+          - name: Mongo__User
             valueFrom:
               secretKeyRef:
-                key: POSTGRES_DB
-                name: postgres-secret
-          - name: DB_USERNAME
+                key: MONGO_INITDB_ROOT_USERNAME
+                name: mongodb-secret
+          - name: Mongo_Password
             valueFrom:
               secretKeyRef:
-                key: POSTGRES_USER
-                name: postgres-secret
-          - name: DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: POSTGRES_PASSWORD
-                name: postgres-secret
+                key: MONGO_INITDB_ROOT_PASSWORD
+                name: mongodb-secret
       affinity:
-        podAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - "postgres"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - "web"
+              topologyKey: kubernetes.io/hostname
+            
