@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+spec:
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+      - name: web
+        image: dpage/pgadmin4:6.15
+        ports:
+        - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: adb-configmap
+          

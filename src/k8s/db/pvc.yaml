@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: digitalocean-pvc
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: do-block-storage-retain
+  accessModes:
+    - ReadWriteOnce
