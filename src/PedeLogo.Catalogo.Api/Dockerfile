@@ -7,7 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["PedeLogo.Catalogo.Api.csproj", "./"]
+COPY ["./PedeLogo.Catalogo.Api.csproj", "./"]
 RUN dotnet restore "PedeLogo.Catalogo.Api.csproj"
 COPY . .
 RUN dotnet build "PedeLogo.Catalogo.Api.csproj" -c Release -o /app/build
