@@ -1,11 +1,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: digitalocean-pvc
+  name: mongodb-pvc
 spec:
+  selector:
+    matchLabels:
+      type: local
   resources:
     requests:
-      storage: 5Gi
-  storageClassName: do-block-storage-retain
+      storage: 2Gi
+  volumeMode: Filesystem
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce

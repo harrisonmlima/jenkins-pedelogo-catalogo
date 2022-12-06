@@ -40,6 +40,6 @@ spec:
       volumes:
         - name: mongodb-data
           persistentVolumeClaim:
-            claimName: digitalocean-pvc     
+            claimName: mongodb-pvc     
 
           
